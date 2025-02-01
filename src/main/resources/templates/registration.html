@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+</head>
+<body>
+
+<header>
+
+  <form method="GET" th:action="@{/shop}">
+    <button type="submit">Home</button>
+  </form>
+
+  <form method="GET" th:action="@{/shop/login}">
+    <button type="submit">Logowanie</button>
+  </form>
+
+</header>
+
+<div id="container">
+
+  <!--/*@thymesVar id="singingUser" type="com.thjodyt.cinema.data.SingingUser"*/-->
+  <form th:action="@{/shop/registration}" method="post" th:object="${singingUser}">
+    <h2>Zarejestruj się:</h2>
+
+    <input type="text" th:field="*{name}" name="name" placeholder="Imię" required>
+    <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{surname}" name="surname" placeholder="Nazwisko" required>
+    <h6 th:each="err : ${#fields.errors('surname')}" th:text="${err}" class="error"></h6>
+
+    <input type="email" th:field="*{email}" name="email" placeholder="e-mail" required>
+    <h6 th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error"></h6>
+
+    <input type="password" th:field="*{password}" name="password" placeholder="Hasło" required>
+    <h6 th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error"></h6>
+
+    <button type="submit">Zarejestruj się</button>
+
+  </form>
+
+</div>
+
+<footer>
+  &copy; 2025 r. Michał Zdziennicki Projekt: sklep internetowy
+</footer>
+
+</body>
+</html>

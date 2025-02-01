@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+
+<header>
+
+  <form method="GET" th:action="@{/shop}">
+    <button type="submit">Home</button>
+  </form>
+
+  <form method="GET" th:action="@{/shop/registration}">
+    <button type="submit">Rejestracja</button>
+  </form>
+
+</header>
+
+<div id="container">
+
+  <form th:action="@{/shop/login}" method="POST">
+    <h2>Zaloguj się</h2>
+
+    <h6 th:if="${param.error}">Niepoprawne dane logowania.</h6>
+
+    <input type="text" name="username" placeholder="e-mail"/>
+    <input type="password" name="password" placeholder="hasło"/>
+    <button type="submit">Zaloguj się</button>
+
+  </form>
+
+</div>
+
+<footer>
+  &copy; 2025 r. Michał Zdziennicki Projekt: sklep internetowy
+</footer>
+
+</body>
+</html>
