@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>Account</title>
+  <title>Code expired info</title>
 </head>
 <body>
 
@@ -13,14 +12,16 @@
     <button type="submit">Home</button>
   </form>
 
-  <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
-    <button type="submit">Wyloguj</button>
+  <form sec:authorize="!isAuthenticated()" method="GET" th:action="@{/shop/login}">
+    <button type="submit">Logowanie</button>
   </form>
 
 </header>
 
 <div id="container">
-  <h1>Account</h1>
+
+  <h1>Kod wygasł.</h1>
+
 </div>
 
 <footer>
