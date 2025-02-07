@@ -13,6 +13,14 @@
     <button type="submit">Home</button>
   </form>
 
+  <form sec:authorize="hasRole('USER')" th:action="@{/shop/history}">
+    <button type="submit">Historia</button>
+  </form>
+
+  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin}">
+    <button type="submit">Admin</button>
+  </form>
+
   <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
     <button type="submit">Wyloguj</button>
   </form>
@@ -20,7 +28,72 @@
 </header>
 
 <div id="container">
-  <h1>Account</h1>
+  <h1>Twoje konto:</h1>
+  <H5 th:text="'Imię: ' + ${user.name}"></H5>
+  <H5 th:text="'Nazwisko: ' + ${user.surname}"></H5>
+  <H5 th:text="'e-mail: ' + ${user.email}"></H5>
+
+  <h5 th:if="${(addresses.size == 0)}">Brak zapisanych adresów.</h5>
+  <div th:if="${(addresses != null && addresses.size > 0)}" th:each="a : ${addresses}">
+    <table>
+      <tr>
+        <td>Województwo</td>
+        <td th:text="${a.province}"></td>
+      </tr>
+      <tr>
+        <td>Miasto</td>
+        <td th:text="${a.city}"></td>
+      </tr>
+      <tr>
+        <td>Ulica</td>
+        <td th:text="${a.street}"></td>
+      </tr>
+      <tr>
+        <td>Numer budynku</td>
+        <td th:text="${a.buildingNumber}"></td>
+      </tr>
+      <tr>
+        <td>Numer mieszkania</td>
+        <td th:text="${a.apartmentNumber}"></td>
+      </tr>
+      <tr>
+        <td>Kod pocztowy</td>
+        <td th:text="${a.zipCode}"></td>
+      </tr>
+    </table>
+    <form th:action="@{'/shop/account/address/' + ${a.id}}">
+      <button type="submit">Usuń</button>
+    </form>
+  </div>
+
+  <!--/*@thymesVar id="AddressDTO" type="pl.zdzimi.shop.model.AddressDTO"*/-->
+  <form th:action="@{/shop/account/address}" method="post" th:object="${addressDTO}">
+    <h2>Dodaj adres:</h2>
+
+    <input type="text" th:field="*{province}" name="province" placeholder="Województwo" required>
+    <h6 th:each="err : ${#fields.errors('province')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{city}" name="city" placeholder="Miasto" required>
+    <h6 th:each="err : ${#fields.errors('city')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{street}" name="street" placeholder="Ulica" required>
+    <h6 th:each="err : ${#fields.errors('street')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{buildingNumber}" name="buildingNumber"
+           placeholder="Numer budynku" required>
+    <h6 th:each="err : ${#fields.errors('buildingNumber')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{apartmentNumber}" name="apartmentNumber"
+           placeholder="Numer mieszkania">
+    <h6 th:each="err : ${#fields.errors('apartmentNumber')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{zipCode}" name="zipCode" placeholder="Kod pocztowy" required>
+    <h6 th:each="err : ${#fields.errors('zipCode')}" th:text="${err}" class="error"></h6>
+
+    <button type="submit">Zapisz</button>
+
+  </form>
+
 </div>
 
 <footer>
