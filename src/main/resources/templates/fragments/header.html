@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Header</title>
+</head>
+<body>
+
+<header>
+
+  <form method="GET" th:action="@{/shop}">
+    <button type="submit">Home</button>
+  </form>
+
+  <form sec:authorize="hasRole('USER')" th:action="@{/shop/history}">
+    <button type="submit">Historia</button>
+  </form>
+
+  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/categories}">
+    <button type="submit">Kategorie</button>
+  </form>
+
+  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/commodities}">
+    <button type="submit">Towary</button>
+  </form>
+
+  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/employees}">
+    <button type="submit">Pracownicy</button>
+  </form>
+
+  <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
+    <button type="submit">Wyloguj</button>
+  </form>
+
+</header>
+
+</body>
+</html>

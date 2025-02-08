@@ -45,7 +45,7 @@ public class WebSecurityConfiguration {
             .requestMatchers(
                 "shop/admin",
                 "shop/admin/*"
-            ).hasRole("ROLE-ADMIN")
+            ).hasRole("ADMIN")
             .anyRequest().authenticated()
     ).formLogin(
         form -> form

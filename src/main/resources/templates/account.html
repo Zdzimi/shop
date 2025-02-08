@@ -1,31 +1,12 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Account</title>
 </head>
 <body>
 
-<header>
-
-  <form method="GET" th:action="@{/shop}">
-    <button type="submit">Home</button>
-  </form>
-
-  <form sec:authorize="hasRole('USER')" th:action="@{/shop/history}">
-    <button type="submit">Historia</button>
-  </form>
-
-  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin}">
-    <button type="submit">Admin</button>
-  </form>
-
-  <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
-    <button type="submit">Wyloguj</button>
-  </form>
-
-</header>
+<header th:replace="~{fragments/header :: header}"></header>
 
 <div id="container">
   <h1>Twoje konto:</h1>
@@ -66,7 +47,7 @@
     </form>
   </div>
 
-  <!--/*@thymesVar id="AddressDTO" type="pl.zdzimi.shop.model.AddressDTO"*/-->
+  <!--/*@thymesVar id="addressDTO" type="pl.zdzimi.shop.model.AddressDTO"*/-->
   <form th:action="@{/shop/account/address}" method="post" th:object="${addressDTO}">
     <h2>Dodaj adres:</h2>
 
@@ -96,9 +77,7 @@
 
 </div>
 
-<footer>
-  &copy; 2025 r. Michał Zdziennicki Projekt: sklep internetowy
-</footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

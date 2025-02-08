@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Categories</title>
+</head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div id="container">
+  <h4>Kategorie:</h4>
+  <h5 th:if="${(categories.size == 0)}">Brak kategorii</h5>
+  <ul>
+    <li th:each="c : ${categories}">
+      <h5 th:text="${c.name}"></h5>
+      <form th:action="@{'/shop/admin/categories/' + ${c.id}}">
+        <button type="submit">Usuń</button>
+      </form>
+    </li>
+  </ul>
+
+  <!--/*@thymesVar id="categoryDTO" type="pl.zdzimi.shop.model.CategoryDTO"*/-->
+  <form th:action="@{/shop/admin/categories}" method="post" th:object="${categoryDTO}">
+
+    <h2>Dodaj kategorię:</h2>
+
+    <input type="text" th:field="*{name}" name="name" placeholder="Nazwa" required>
+    <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error"></h6>
+
+    <button type="submit">Dodaj</button>
+
+  </form>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
