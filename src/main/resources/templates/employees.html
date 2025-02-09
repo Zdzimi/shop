@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Employees</title>
+</head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div id="container">
+
+  <h4>Pracownicy:</h4>
+  <h5 th:if="${(employees.size == 0)}">Brak pracowników</h5>
+  <ul>
+    <li th:each="e : ${employees}">
+      <h5>
+        <span th:text="${e.name} + ' '"></span>
+        <span th:text="${e.surname}"></span>
+      </h5>
+      <form th:action="@{'/shop/admin/employees/' + ${e.id}}">
+        <button type="submit">Usuń</button>
+      </form>
+    </li>
+  </ul>
+
+  <!--/*@thymesVar id="employeeDTO" type="pl.zdzimi.shop.model.EmployeeDTO"*/-->
+  <form th:action="@{/shop/admin/employees}" method="post" th:object="${employeeDTO}">
+
+    <h2>Dodaj pracownika:</h2>
+
+    <input type="text" th:field="*{name}" name="name" placeholder="Imię" required>
+    <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error"></h6>
+
+    <input type="text" th:field="*{surname}" name="surname" placeholder="Nazwisko" required>
+    <h6 th:each="err : ${#fields.errors('surname')}" th:text="${err}" class="error"></h6>
+
+    <input type="email" th:field="*{email}" name="email" placeholder="E-mail" required>
+    <h6 th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error"></h6>
+
+    <button type="submit">Dodaj</button>
+
+  </form>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
