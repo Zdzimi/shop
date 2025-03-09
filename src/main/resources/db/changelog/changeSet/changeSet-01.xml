@@ -8,7 +8,7 @@
   <changeSet id="1737902950980-1" author="Michał">
     <createTable tableName="USERS">
       <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+        <constraints primaryKey="true"/>
       </column>
       <column name="NAME" type="VARCHAR(255)">
         <constraints nullable="false"/>
@@ -32,7 +32,7 @@
   <changeSet id="1737902967794-1" author="Michał">
     <createTable tableName="ADDRESSES">
       <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_addresses"/>
+        <constraints primaryKey="true"/>
       </column>
       <column name="PROVINCE" type="VARCHAR(255)">
         <constraints nullable="false"/>
@@ -50,17 +50,16 @@
       <column name="ZIP_CODE" type="VARCHAR(255)">
         <constraints nullable="false"/>
       </column>
-      <column name="USERS_ID" type="BIGINT"/>
+      <column name="USERS_ID" type="BIGINT">
+        <constraints foreignKeyName="USERS.ID" nullable="false"/>
+      </column>
     </createTable>
-    <addForeignKeyConstraint baseColumnNames="USERS_ID" baseTableName="ADDRESSES"
-      constraintName="FK_ADDRESSES_ON_USERS" referencedColumnNames="ID"
-      referencedTableName="USERS"/>
   </changeSet>
 
   <changeSet id="1737904202834-1" author="Michał">
     <createTable tableName="CATEGORIES">
       <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_categories"/>
+        <constraints primaryKey="true"/>
       </column>
       <column name="NAME" type="VARCHAR(255)">
         <constraints nullable="false" unique="true"/>
@@ -71,7 +70,7 @@
   <changeSet id="1737904263914-1" author="Michał">
     <createTable tableName="COMMODITIES">
       <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_commodities"/>
+        <constraints primaryKey="true"/>
       </column>
       <column name="NAME" type="VARCHAR(255)">
         <constraints nullable="false"/>
@@ -82,17 +81,16 @@
       <column name="PRICE" type="DOUBLE">
         <constraints nullable="false"/>
       </column>
-      <column name="CATEGORIES_ID" type="BIGINT"/>
+      <column name="CATEGORIES_ID" type="BIGINT">
+        <constraints foreignKeyName="CATEGORIES.ID" nullable="false"/>
+      </column>
     </createTable>
-    <addForeignKeyConstraint baseColumnNames="CATEGORIES_ID" baseTableName="COMMODITIES"
-      constraintName="FK_COMMODITIES_ON_CATEGORIES" referencedColumnNames="ID"
-      referencedTableName="CATEGORIES"/>
   </changeSet>
 
   <changeSet id="1737905175018-1" author="Michał">
     <createTable tableName="PHOTOS">
       <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_photos"/>
+        <constraints primaryKey="true"/>
       </column>
       <column name="URL" type="VARCHAR(255)">
         <constraints nullable="false"/>
@@ -104,63 +102,49 @@
       <column name="HINT" type="VARCHAR(255)"/>
       <column name="WIDTH" type="DOUBLE"/>
       <column name="HEIGHT" type="DOUBLE"/>
-      <column name="COMMODITIES_ID" type="BIGINT"/>
+      <column name="COMMODITIES_ID" type="BIGINT">
+        <constraints foreignKeyName="COMMODITIES.ID" nullable="false"/>
+      </column>
     </createTable>
-    <addForeignKeyConstraint baseColumnNames="COMMODITIES_ID" baseTableName="PHOTOS"
-      constraintName="FK_PHOTOS_ON_COMMODITIES" referencedColumnNames="ID"
-      referencedTableName="COMMODITIES"/>
   </changeSet>
 
   <changeSet id="1737905578469-1" author="Michał">
     <createTable tableName="AMOUNTS">
-      <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_amounts"/>
-      </column>
-      <column name="amount" type="INT">
-        <constraints nullable="false"/>
-      </column>
-      <column name="COMMODITIES_ID" type="BIGINT"/>
-    </createTable>
-    <addForeignKeyConstraint baseColumnNames="COMMODITIES_ID" baseTableName="AMOUNTS"
-      constraintName="FK_AMOUNTS_ON_COMMODITIES" referencedColumnNames="ID"
-      referencedTableName="COMMODITIES"/>
-  </changeSet>
-
-  <changeSet id="1737906843374-1" author="Michał">
-    <createTable tableName="ORDERS">
-      <column autoIncrement="true" name="ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_orders"/>
-      </column>
-      <column name="DATE_TIME" type="DATETIME">
-        <constraints nullable="false"/>
-      </column>
-      <column name="USERS_ID" type="BIGINT"/>
-    </createTable>
-    <addForeignKeyConstraint baseColumnNames="USERS_ID" baseTableName="ORDERS"
-      constraintName="FK_ORDERS_ON_USERS" referencedColumnNames="ID" referencedTableName="USERS"/>
-  </changeSet>
-
-  <changeSet id="1737908168073-1" author="Michał">
-    <createTable tableName="ORDERS_HAS_COMMODITIES">
-      <column name="COMMODITIES_ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true"
-          primaryKeyName="pk_orders_has_commodities_on_commodities"/>
-      </column>
-      <column name="ORDERS_ID" type="BIGINT">
-        <constraints nullable="false" primaryKey="true"
-          primaryKeyName="pk_orders_has_commodities_on_orders"/>
+      <column name="ID" type="BIGINT">
+        <constraints primaryKey="true" foreignKeyName="COMMODITIES.ID"/>
       </column>
       <column name="AMOUNT" type="INT">
         <constraints nullable="false"/>
       </column>
     </createTable>
-    <addForeignKeyConstraint baseColumnNames="COMMODITIES_ID" baseTableName="ORDERS_HAS_COMMODITIES"
-      constraintName="FK_ORDERS_HAS_COMMODITIES_ON_COMMODITIES" referencedColumnNames="ID"
-      referencedTableName="COMMODITIES"/>
-    <addForeignKeyConstraint baseColumnNames="ORDERS_ID" baseTableName="ORDERS_HAS_COMMODITIES"
-      constraintName="FK_ORDERS_HAS_COMMODITIES_ON_ORDERS" referencedColumnNames="ID"
-      referencedTableName="ORDERS"/>
   </changeSet>
 
+  <changeSet id="1737906843374-1" author="Michał">
+    <createTable tableName="ORDERS">
+      <column autoIncrement="true" name="ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_TIME" type="DATETIME">
+        <constraints nullable="false"/>
+      </column>
+      <column name="USERS_ID" type="BIGINT">
+        <constraints foreignKeyName="USERS.ID" nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="1737908168073-1" author="Michał">
+    <createTable tableName="ORDERS_HAS_COMMODITIES">
+      <column name="COMMODITIES_ID" type="BIGINT">
+        <constraints primaryKey="true" foreignKeyName="COMMODITIES.ID"/>
+      </column>
+      <column name="ORDERS_ID" type="BIGINT">
+        <constraints primaryKey="true" foreignKeyName="ORDERS.ID"/>
+      </column>
+      <column name="AMOUNT" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
 
 </databaseChangeLog>

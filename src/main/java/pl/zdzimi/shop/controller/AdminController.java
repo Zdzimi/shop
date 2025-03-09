@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.zdzimi.shop.model.CategoryDTO;
+import pl.zdzimi.shop.model.CreatingCommodity;
 import pl.zdzimi.shop.model.EmployeeDTO;
 import pl.zdzimi.shop.service.CategoriesService;
+import pl.zdzimi.shop.service.CommoditiesService;
 import pl.zdzimi.shop.service.EmployeesService;
 
 @Controller
@@ -18,6 +20,7 @@ public class AdminController {
 
   private final CategoriesService categoriesService;
   private final EmployeesService employeesService;
+  private final CommoditiesService commoditiesService;
 
   @GetMapping("/categories")
   public String getAdminCategoriesView(Model model) {
@@ -63,6 +66,25 @@ public class AdminController {
   public String deleteEmployee(@PathVariable Long id) {
     employeesService.delete(id);
     return "redirect:/shop/admin/employees";
+  }
+
+  @GetMapping("/commodities")
+  public String getCommoditiesView(Model model) {
+    model.addAttribute("commodities", commoditiesService.findAll());
+    model.addAttribute("creatingCommodity", new CreatingCommodity());
+    model.addAttribute("categories", categoriesService.getAll());
+    return "commodities";
+  }
+
+  @PostMapping("commodities")
+  public String addCommodity(@Valid @ModelAttribute CreatingCommodity creatingCommodity, BindingResult result, Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("commodities", commoditiesService.findAll());
+      model.addAttribute("categories", categoriesService.getAll());
+      return "commodities";
+    }
+    commoditiesService.saveCommodity(creatingCommodity);
+    return "redirect:/shop/admin/commodities";
   }
 
 }

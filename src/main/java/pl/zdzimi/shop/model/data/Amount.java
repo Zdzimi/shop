@@ -11,12 +11,12 @@ import lombok.Setter;
 public class Amount {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
   private Long id;
+  @Column(name = "AMOUNT")
   private int amount;
   @OneToOne
-  @JoinColumn(name = "COMMODITIES_ID")
+  @JoinColumn(name = "ID")
   private Commodity commodity;
 
 }

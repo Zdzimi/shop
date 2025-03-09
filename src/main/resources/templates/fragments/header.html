@@ -13,8 +13,12 @@
     <button type="submit">Home</button>
   </form>
 
-  <form sec:authorize="hasRole('USER')" th:action="@{/shop/history}">
-    <button type="submit">Historia</button>
+  <form sec:authorize="isAuthenticated()" th:action="@{/shop/account}">
+    <button type="submit">Konto</button>
+  </form>
+
+  <form sec:authorize="isAuthenticated()" th:action="@{/shop/history}">
+    <button type="submit">Zamówienia</button>
   </form>
 
   <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/categories}">
@@ -31,6 +35,10 @@
 
   <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
     <button type="submit">Wyloguj</button>
+  </form>
+
+  <form sec:authorize="!isAuthenticated()" method="GET" th:action="@{/shop/login}">
+    <button type="submit">Logowanie</button>
   </form>
 
 </header>

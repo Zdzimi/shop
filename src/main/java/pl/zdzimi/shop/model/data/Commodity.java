@@ -28,7 +28,7 @@ public class Commodity {
   @JoinColumn(name = "COMMODITIES_ID")
   private List<Photo> photos;
   @OneToOne
-  @JoinColumn(name = "COMMODITIES_ID")
+  @JoinColumn(name = "ID")
   private Amount amount;
 
 }
