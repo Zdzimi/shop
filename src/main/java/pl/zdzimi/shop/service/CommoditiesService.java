@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import pl.zdzimi.shop.model.CommodityDTO;
 import pl.zdzimi.shop.model.CreatingCommodity;
 import pl.zdzimi.shop.model.PhotoDTO;
+import pl.zdzimi.shop.model.SearchingParams;
 import pl.zdzimi.shop.model.data.Amount;
 import pl.zdzimi.shop.model.data.Commodity;
 import pl.zdzimi.shop.model.data.Photo;
@@ -33,6 +34,24 @@ public class CommoditiesService {
     return commoditiesRepository.findAllCommodities().stream()
         .map(Mapper::mapToDTO)
         .collect(Collectors.toList());
+  }
+
+  public Collection<CommodityDTO> findAllAvailable() {
+    return commoditiesRepository.findAllAvailable().stream()
+        .map(Mapper::mapToDTO)
+        .collect(Collectors.toList());
+  }
+
+  public Collection<CommodityDTO> findAllAvailableBySearchingParams(SearchingParams searchingParams) {
+    if(searchingParams.getCategoryId() != 0) {
+      return commoditiesRepository.findAllAvailableBySearchingParams(searchingParams.getName(), searchingParams.getCategoryId()).stream()
+          .map(Mapper::mapToDTO)
+          .collect(Collectors.toList());
+    } else {
+      return commoditiesRepository.findAllAvailableByNameLike(searchingParams.getName()).stream()
+          .map(Mapper::mapToDTO)
+          .collect(Collectors.toList());
+    }
   }
 
   @Transactional

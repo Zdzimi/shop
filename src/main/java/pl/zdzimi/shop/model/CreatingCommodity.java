@@ -18,13 +18,10 @@ public class CreatingCommodity {
   @NotBlank(message = "Podaj opis")
   @Size(min = 4, max = 20, message = "Min 4 znaki max 200 znaków")
   private String description;
-  @NotBlank(message = "Podaj cenę")
   @Min(0)
   private double price;
-  @NotBlank(message = "Podaj kategorię")
   private Long categoryId;
 
-  @NotBlank(message = "Podaj zdjęcie")
   private MultipartFile photoFirst;
   @NotBlank(message = "Podaj nazę")
   @Size(min = 4, max = 20, message = "Min 4 znaki max 20 znaków")
