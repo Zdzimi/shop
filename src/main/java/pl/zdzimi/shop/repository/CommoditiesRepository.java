@@ -14,6 +14,7 @@ public interface CommoditiesRepository extends JpaRepository<Commodity, Long> {
   LEFT JOIN FETCH c.amount
   LEFT JOIN FETCH c.category 
   LEFT JOIN FETCH c.photos
+  ORDER BY c.amount.amount
   """)
   Collection<Commodity> findAllCommodities();
 

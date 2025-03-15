@@ -1,5 +1,8 @@
 package pl.zdzimi.shop.model;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,12 +12,22 @@ import org.springframework.web.multipart.MultipartFile;
 public class CreatingCommodity {
 
   private Long id;
+  @NotBlank(message = "Podaj nazwę produktu")
+  @Size(min = 4, max = 20, message = "Min 4 znaki max 20 znaków")
   private String name;
+  @NotBlank(message = "Podaj opis")
+  @Size(min = 4, max = 20, message = "Min 4 znaki max 200 znaków")
   private String description;
+  @NotBlank(message = "Podaj cenę")
+  @Min(0)
   private double price;
+  @NotBlank(message = "Podaj kategorię")
   private Long categoryId;
 
+  @NotBlank(message = "Podaj zdjęcie")
   private MultipartFile photoFirst;
+  @NotBlank(message = "Podaj nazę")
+  @Size(min = 4, max = 20, message = "Min 4 znaki max 20 znaków")
   private String photoFirstName;
   private String photoFirstDescription;
   private String photoFirstHint;

@@ -1,6 +1,7 @@
 package pl.zdzimi.shop.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.zdzimi.shop.model.CategoryDTO;
 import pl.zdzimi.shop.model.CreatingCommodity;
 import pl.zdzimi.shop.model.EmployeeDTO;
+import pl.zdzimi.shop.service.AmountsService;
 import pl.zdzimi.shop.service.CategoriesService;
 import pl.zdzimi.shop.service.CommoditiesService;
 import pl.zdzimi.shop.service.EmployeesService;
@@ -21,6 +23,7 @@ public class AdminController {
   private final CategoriesService categoriesService;
   private final EmployeesService employeesService;
   private final CommoditiesService commoditiesService;
+  private final AmountsService amountsService;
 
   @GetMapping("/categories")
   public String getAdminCategoriesView(Model model) {
@@ -76,7 +79,7 @@ public class AdminController {
     return "commodities";
   }
 
-  @PostMapping("commodities")
+  @PostMapping("/commodities")
   public String addCommodity(@Valid @ModelAttribute CreatingCommodity creatingCommodity, BindingResult result, Model model) {
     if (result.hasErrors()) {
       model.addAttribute("commodities", commoditiesService.findAll());
@@ -84,6 +87,18 @@ public class AdminController {
       return "commodities";
     }
     commoditiesService.saveCommodity(creatingCommodity);
+    return "redirect:/shop/admin/commodities";
+  }
+
+  @GetMapping("/commodities/{id}")
+  public String deleteCommodity(@PathVariable Long id) {
+    amountsService.setAmount(id, 0);
+    return "redirect:/shop/admin/commodities";
+  }
+
+  @PostMapping("/commodities/{id}")
+  public String addIncreaseAmount(@Min(1) @RequestParam int amount, @PathVariable Long id) {
+    amountsService.setAmount(id, amount);
     return "redirect:/shop/admin/commodities";
   }
 
