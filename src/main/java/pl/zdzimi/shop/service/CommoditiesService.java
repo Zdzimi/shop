@@ -19,6 +19,7 @@ import pl.zdzimi.shop.repository.CategoriesRepository;
 import pl.zdzimi.shop.repository.CommoditiesRepository;
 import pl.zdzimi.shop.repository.PhotosRepository;
 import pl.zdzimi.shop.service.exception.CategoryNotFoundException;
+import pl.zdzimi.shop.service.exception.CommodityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +53,13 @@ public class CommoditiesService {
           .map(Mapper::mapToDTO)
           .collect(Collectors.toList());
     }
+  }
+
+  public CommodityDTO findById(Long id) {
+    return Mapper.mapToDTO(
+        commoditiesRepository.findById(id)
+            .orElseThrow(() -> new CommodityNotFoundException("Commodity not found no: " + id))
+    );
   }
 
   @Transactional

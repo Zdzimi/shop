@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Commodity Details</title>
+</head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div id="container">
+
+  <h1 th:text="${commodity.name}"></h1>
+  <h1 th:text="${commodity.price}"></h1>
+  <div th:each="p : ${commodity.photos}">
+    <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
+    <h5 th:text="${p.name}"></h5>
+    <p th:text="${p.description}"></p>
+    <p th:text="${p.hint}"></p>
+  </div>
+  <p th:text="${commodity.description}"></p>
+
+  <form th:action="@{'/shop/product/' + ${commodity.id}}" method="post">
+    <input type="number" name="amount" placeholder="ilość" step="1" required>
+    <button type="submit">Dodaj do koszyka</button>
+  </form>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

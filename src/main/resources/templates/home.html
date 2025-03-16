@@ -25,7 +25,7 @@
   <h5 th:if="${(commodities.size == 0)}">Brak towarów</h5>
   <ul>
     <li th:each="c : ${commodities}">
-      <a th:href="@{'/shop/commodities/' + ${c.id}}" th:text="${c.name}"></a>
+      <a th:href="@{'/shop/product/' + ${c.id}}" th:text="${c.name}"></a>
       <h5 th:text="'Cena: ' + ${c.price}"></h5>
       <div th:each="p : ${c.photos}">
         <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>

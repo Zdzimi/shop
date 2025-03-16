@@ -1,23 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Exception info</title>
 </head>
 <body>
 
-<header>
-
-  <form method="GET" th:action="@{/shop}">
-    <button type="submit">Home</button>
-  </form>
-
-  <form sec:authorize="!isAuthenticated()" method="GET" th:action="@{/shop/login}">
-    <button type="submit">Logowanie</button>
-  </form>
-
-</header>
-
+<header th:replace="~{fragments/header :: header}"></header>
 
 <div id="container">
 
@@ -25,9 +14,7 @@
 
 </div>
 
-<footer>
-  &copy; 2025 r. Michał Zdziennicki Projekt: sklep internetowy
-</footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

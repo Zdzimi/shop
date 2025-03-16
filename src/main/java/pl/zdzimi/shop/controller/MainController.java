@@ -18,6 +18,7 @@ public class MainController {
 
   private final CommoditiesService commoditiesService;
   private final CategoriesService categoriesService;
+//  private final ShoppingCart shoppingCart;
 
   @GetMapping
   public String getHomePage(Model model) {
@@ -33,6 +34,18 @@ public class MainController {
     model.addAttribute("searchingParams", new SearchingParams());
     model.addAttribute("commodities", commoditiesService.findAllAvailableBySearchingParams(searchingParams));
     return "home";
+  }
+
+  @GetMapping("/product/{id}")
+  public String getCommodityDetails(@PathVariable Long id, Model model) {
+    model.addAttribute("commodity", commoditiesService.findById(id));
+    return "commodityDetails";
+  }
+
+  @PostMapping("/product/{id}")
+  public String addToShippingCart(@PathVariable Long id, @RequestParam int amount) {
+//    shoppingCart.add(id, amount);
+    return "shoppingCart";
   }
 
   private Collection<CategoryDTO> getCategories() {
