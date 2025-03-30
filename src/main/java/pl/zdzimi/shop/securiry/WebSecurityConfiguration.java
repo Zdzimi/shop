@@ -40,6 +40,7 @@ public class WebSecurityConfiguration {
                 "/shop/password-reset/*",
                 "/shop/product/*",
                 "/shop/shopping-cart",
+                "/shop/shopping-cart/*",
                 "/shop/category/*"
             ).permitAll()
             .requestMatchers(

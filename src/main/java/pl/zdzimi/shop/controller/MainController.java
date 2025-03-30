@@ -1,5 +1,6 @@
 package pl.zdzimi.shop.controller;
 
+import jakarta.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import pl.zdzimi.shop.model.CategoryDTO;
 import pl.zdzimi.shop.model.SearchingParams;
 import pl.zdzimi.shop.service.CategoriesService;
 import pl.zdzimi.shop.service.CommoditiesService;
+import pl.zdzimi.shop.service.StoreService;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class MainController {
 
   private final CommoditiesService commoditiesService;
   private final CategoriesService categoriesService;
-//  private final ShoppingCart shoppingCart;
+  private final StoreService storeService;
 
   @GetMapping
   public String getHomePage(Model model) {
@@ -43,9 +45,9 @@ public class MainController {
   }
 
   @PostMapping("/product/{id}")
-  public String addToShippingCart(@PathVariable Long id, @RequestParam int amount) {
-//    shoppingCart.add(id, amount);
-    return "shoppingCart";
+  public String addToShippingCart(@Min(value = 1, message = "min = 1") @RequestParam int amount, @PathVariable Long id) {
+    storeService.add(id, amount);
+    return "productAddedInfo";
   }
 
   private Collection<CategoryDTO> getCategories() {

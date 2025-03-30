@@ -21,7 +21,7 @@
   <p th:text="${commodity.description}"></p>
 
   <form th:action="@{'/shop/product/' + ${commodity.id}}" method="post">
-    <input type="number" name="amount" placeholder="ilość" step="1" required>
+    <input type="number" name="amount" placeholder="ilość" step="1" min="1" required>
     <button type="submit">Dodaj do koszyka</button>
   </form>
 

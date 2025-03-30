@@ -21,6 +21,10 @@
     <button type="submit">Zamówienia</button>
   </form>
 
+  <form method="GET" th:action="@{/shop/shopping-cart}">
+    <button type="submit">Koszyk</button>
+  </form>
+
   <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/categories}">
     <button type="submit">Kategorie</button>
   </form>

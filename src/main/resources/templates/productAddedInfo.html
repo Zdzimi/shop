@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Added Info</title>
+</head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div id="container">
+
+  <h3>Dodano do koszyka</h3>
+
+  <form method="GET" th:action="@{/shop}">
+    <button type="submit">Kontynuj zakupy</button>
+  </form>
+
+  <form method="GET" th:action="@{/shop/shopping-cart}">
+    <button type="submit">Koszyk</button>
+  </form>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
