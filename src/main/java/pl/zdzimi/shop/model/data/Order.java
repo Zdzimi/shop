@@ -20,5 +20,8 @@ public class Order {
   @ManyToOne
   @JoinColumn(name = "USERS_ID")
   private User user;
+  @ManyToOne
+  @JoinColumn(name = "ADDRESSES_ID")
+  private Address address;
 
 }

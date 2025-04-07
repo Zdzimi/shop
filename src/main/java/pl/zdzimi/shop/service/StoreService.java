@@ -34,4 +34,8 @@ public class StoreService {
     }
   }
 
+  public void clearShoppingCart() {
+    shoppingCart.removeAll();
+  }
+
 }

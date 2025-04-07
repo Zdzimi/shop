@@ -3,7 +3,7 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>Shopping Cart</title>
+  <title>Cash Register</title>
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 <div id="container">
 
   <ul>
-    <li th:each="item : ${receiptItems}">
+    <li th:each="item : ${bill.items}">
       <h5 th:text="'Nazwa: ' + ${item.commodity.name}"></h5>
       <h5 th:text="'Cena szt: ' + ${item.commodity.price}"></h5>
       <h5 th:text="'Ilość: ' + ${item.amount}"></h5>
@@ -22,24 +22,23 @@
         <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
       </div>
 
-      <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}" method="post">
-        <input type="number" name="amount" placeholder="ilość" step="1" min="1" required>
-        <button type="submit">Aktualizuj ilość</button>
-      </form>
-
-      <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}">
-        <button type="submit">Usuń z koszyka</button>
-      </form>
-
     </li>
   </ul>
+  <h2 th:text="'Suma: ' + ${bill.sum}"></h2>
 
-  <form sec:authorize="isAuthenticated()" th:action="@{/shop/cash-register}">
-    <button type="submit">Do kasy</button>
-  </form>
-
-  <form sec:authorize="!isAuthenticated()" method="GET" th:action="@{/shop/login}">
-    <button type="submit">Logowanie</button>
+  <form method="POST" th:action="@{/shop/cash-register}">
+    <fieldset>
+      <legend>Adres:</legend>
+      <div th:each="a : ${addresses}">
+        <input type="radio" th:id="${a.id}" th:name="addressId" th:value="${a.id}">
+        <label th:for="${a.id}">
+          <h4 th:text="${a.street} + ' ' + ${a.buildingNumber} + ' ' + ${a.apartmentNumber}"></h4>
+          <h4 th:text="${a.zipCode} + ' ' + ${a.city}"></h4>
+          <h4 th:text="${a.province}"></h4>
+        </label>
+      </div>
+    </fieldset>
+    <button type="submit">Zamawiam</button>
   </form>
 
 </div>

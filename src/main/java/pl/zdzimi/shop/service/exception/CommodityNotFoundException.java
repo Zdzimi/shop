@@ -6,4 +6,8 @@ public class CommodityNotFoundException extends RuntimeException {
     super(message);
   }
 
+  public CommodityNotFoundException(Long id) {
+    super("Nie znaleziono towaru nr " + id);
+  }
+
 }

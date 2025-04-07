@@ -10,6 +10,7 @@ import pl.zdzimi.shop.model.data.Address;
 import pl.zdzimi.shop.model.data.User;
 import pl.zdzimi.shop.repository.AddressesRepository;
 import pl.zdzimi.shop.securiry.PrincipalUser;
+import pl.zdzimi.shop.service.exception.AddressNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,11 @@ public class AddressesService {
     addressesRepository
         .findByIdAndUser(id, user)
         .ifPresent(addressesRepository::delete);
+  }
+
+  public Address findAddress(User user, Long addressId) {
+    return addressesRepository.findByUserAndId(user, addressId)
+        .orElseThrow(() -> new AddressNotFoundException(addressId));
   }
 
   private static class Mapper {

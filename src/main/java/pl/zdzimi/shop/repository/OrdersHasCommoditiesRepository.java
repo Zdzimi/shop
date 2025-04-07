@@ -6,6 +6,6 @@ import pl.zdzimi.shop.model.data.OrdersHasCommodities;
 import pl.zdzimi.shop.model.data.OrdersHasCommoditiesId;
 
 @Repository
-interface OrdersHasCommoditiesRepository extends JpaRepository<OrdersHasCommodities, OrdersHasCommoditiesId> {
+public interface OrdersHasCommoditiesRepository extends JpaRepository<OrdersHasCommodities, OrdersHasCommoditiesId> {
 
 }
