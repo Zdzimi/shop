@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Orders</title>
+</head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div id="container">
+  <div th:each="o : ${orders}">
+
+    <h5 th:text="'Zamówienie nr: ' + ${o.id} + ' ' + ${o.dateTime}"></h5>
+
+    <h5 th:text="'Pan/i ' + ${o.name} + ' ' + ${o.surname} + ' e-mail: ' + ${o.email}"></h5>
+
+    <h5>Adres dostawy:</h5>
+
+    <h5 th:text="'ul. ' + ${o.street} + ' ' + ${o.buildingNumber}"><span th:if="${(o.apartmentNumber != null)}" th:text="'/' + ${o.apartmentNumber}"></span></h5>
+
+    <h5 th:text="${o.zipCode} + ' ' + ${o.city} + ' ' + ${o.province}"></h5>
+
+    <div th:each="ri : ${o.receiptItems}">
+
+      <h5 th:text="${ri.commodity.name} + ': ' + ${ri.commodity.price} + ' * ' + ${ri.amount} + ' = ' + ${ri.price}"></h5>
+
+    </div>
+
+  </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

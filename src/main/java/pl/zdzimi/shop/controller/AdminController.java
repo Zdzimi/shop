@@ -14,6 +14,7 @@ import pl.zdzimi.shop.service.AmountsService;
 import pl.zdzimi.shop.service.CategoriesService;
 import pl.zdzimi.shop.service.CommoditiesService;
 import pl.zdzimi.shop.service.EmployeesService;
+import pl.zdzimi.shop.service.OrdersService;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class AdminController {
   private final EmployeesService employeesService;
   private final CommoditiesService commoditiesService;
   private final AmountsService amountsService;
+  private final OrdersService ordersService;
 
   @GetMapping("/categories")
   public String getAdminCategoriesView(Model model) {
@@ -100,6 +102,12 @@ public class AdminController {
   public String addIncreaseAmount(@Min(1) @RequestParam int amount, @PathVariable Long id) {
     amountsService.setAmount(id, amount);
     return "redirect:/shop/admin/commodities";
+  }
+
+  @GetMapping("/orders")
+  public String getOrdersView(Model model) {
+    model.addAttribute("orders", ordersService.getAllOrders());
+    return "orders";
   }
 
 }

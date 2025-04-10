@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.zdzimi.shop.model.AddressDTO;
 import pl.zdzimi.shop.securiry.PrincipalUser;
 import pl.zdzimi.shop.service.AddressesService;
+import pl.zdzimi.shop.service.OrdersService;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ import pl.zdzimi.shop.service.AddressesService;
 public class UsersController {
 
   private final AddressesService addressesService;
+  private final OrdersService ordersService;
 
   @GetMapping
   public String getAccountPage(@AuthenticationPrincipal PrincipalUser principalUser, Model model) {
@@ -41,6 +43,12 @@ public class UsersController {
   public String delete(@AuthenticationPrincipal PrincipalUser principalUser, @PathVariable Long id) {
     addressesService.delete(principalUser.getUser(), id);
     return "redirect:/shop/account";
+  }
+
+  @GetMapping("/history")
+  public String getMyOrdersView(Model model, @AuthenticationPrincipal PrincipalUser principalUser) {
+    model.addAttribute("orders", ordersService.getAllMyOrders(principalUser.getUser()));
+    return "orders";
   }
 
 }

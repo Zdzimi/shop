@@ -1,10 +1,14 @@
 package pl.zdzimi.shop.service;
 
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.zdzimi.shop.model.Bill;
+import pl.zdzimi.shop.model.OrderDTO;
 import pl.zdzimi.shop.model.ReceiptItem;
 import pl.zdzimi.shop.model.data.Amount;
 import pl.zdzimi.shop.model.data.Commodity;
@@ -65,6 +69,53 @@ public class OrdersService {
     order.setUser(user);
     order.setAddress(addressesService.findAddress(user, addressId));
     return ordersRepository.save(order);
+  }
+
+  public Collection<OrderDTO> getAllOrders() {
+    return ordersRepository.findAllOrders().stream()
+        .map(o -> Mapper.map(o, commoditiesService))
+        .collect(Collectors.toList());
+  }
+
+  public Collection<OrderDTO> getAllMyOrders(User user) {
+    return ordersRepository.findAllMyOrders(user).stream()
+        .map(o -> Mapper.map(o, commoditiesService))
+        .collect(Collectors.toList());
+  }
+
+  private static class Mapper {
+
+    private static OrderDTO map(Order order, CommoditiesService commoditiesService) {
+      OrderDTO orderDTO = new OrderDTO();
+
+      orderDTO.setId(order.getId());
+      orderDTO.setDateTime(order.getDateTime());
+
+      orderDTO.setName(order.getUser().getName());
+      orderDTO.setSurname(order.getUser().getSurname());
+      orderDTO.setEmail(order.getUser().getEmail());
+
+      orderDTO.setProvince(order.getAddress().getProvince());
+      orderDTO.setCity(order.getAddress().getCity());
+      orderDTO.setStreet(order.getAddress().getStreet());
+      orderDTO.setBuildingNumber(order.getAddress().getBuildingNumber());
+      orderDTO.setApartmentNumber(order.getAddress().getApartmentNumber());
+      orderDTO.setZipCode(order.getAddress().getZipCode());
+
+      orderDTO.setReceiptItems(mapReceiptItems(order, commoditiesService));
+
+      return orderDTO;
+    }
+
+    private static Collection<ReceiptItem> mapReceiptItems(Order order,
+        CommoditiesService commoditiesService) {
+      List<ReceiptItem> result = new ArrayList<>();
+      for (OrdersHasCommodities ohc : order.getCommodities()) {
+        result.add(new ReceiptItem(commoditiesService.mapToCommodityDTO(ohc.getCommodity()), ohc.getAmount()));
+      }
+      return result;
+    }
+
   }
 
 }

@@ -111,6 +111,10 @@ public class CommoditiesService {
     return commoditiesRepository.findById(id).orElseThrow(() -> new CommodityNotFoundException(id));
   }
 
+  public CommodityDTO mapToCommodityDTO(Commodity commodity) {
+    return Mapper.mapToDTO(commodity);
+  }
+
   private static class Mapper {
 
     static CommodityDTO mapToDTO(Commodity commodity) {

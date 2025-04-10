@@ -2,6 +2,7 @@ package pl.zdzimi.shop.model.data;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,5 +24,8 @@ public class Order {
   @ManyToOne
   @JoinColumn(name = "ADDRESSES_ID")
   private Address address;
+  @OneToMany
+  @JoinColumn(name = "ORDERS_ID")
+  private Collection<OrdersHasCommodities> commodities;
 
 }

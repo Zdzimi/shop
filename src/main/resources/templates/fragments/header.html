@@ -17,8 +17,8 @@
     <button type="submit">Konto</button>
   </form>
 
-  <form sec:authorize="isAuthenticated()" th:action="@{/shop/history}">
-    <button type="submit">Zamówienia</button>
+  <form sec:authorize="isAuthenticated()" th:action="@{/shop/account/history}">
+    <button type="submit">Twoje Zamówienia</button>
   </form>
 
   <form method="GET" th:action="@{/shop/shopping-cart}">
@@ -35,6 +35,10 @@
 
   <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/employees}">
     <button type="submit">Pracownicy</button>
+  </form>
+
+  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/orders}">
+    <button type="submit">Zamówienia</button>
   </form>
 
   <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
