@@ -65,6 +65,7 @@ public class AddressesService {
       address.setBuildingNumber(addressDTO.getBuildingNumber());
       address.setApartmentNumber(addressDTO.getApartmentNumber());
       address.setZipCode(addressDTO.getZipCode());
+      address.setActual(true);
       return address;
     }
 
