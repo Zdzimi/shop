@@ -13,4 +13,10 @@
     </addColumn>
   </changeSet>
 
+  <changeSet id="1744289925636-1" author="Michał">
+    <addColumn tableName="ADDRESSES">
+      <column name="IS_ACTUAL" type="BOOLEAN" defaultValueBoolean="true"/>
+    </addColumn>
+  </changeSet>
+
 </databaseChangeLog>

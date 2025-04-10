@@ -31,9 +31,10 @@ public class AddressesService {
   }
 
   public void delete(User user, Long id) {
-    addressesRepository
-        .findByIdAndUser(id, user)
-        .ifPresent(addressesRepository::delete);
+    Address address = addressesRepository.findByIdAndUser(id, user)
+        .orElseThrow(() -> new AddressNotFoundException(id));
+    address.setActual(false);
+    addressesRepository.save(address);
   }
 
   public Address findAddress(User user, Long addressId) {

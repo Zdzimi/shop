@@ -26,6 +26,8 @@ public class Address {
   private String apartmentNumber;
   @Column(name = "ZIP_CODE")
   private String zipCode;
+  @Column(name = "IS_ACTUAL")
+  private boolean isActual;
   @ManyToOne
   @JoinColumn(name = "USERS_ID")
   private User user;
