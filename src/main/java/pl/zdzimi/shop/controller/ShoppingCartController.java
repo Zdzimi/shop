@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.zdzimi.shop.model.Bill;
 import pl.zdzimi.shop.service.StoreService;
 
 @Controller
@@ -16,7 +17,7 @@ public class ShoppingCartController {
 
   @GetMapping
   public String getShoppingCart(Model model) {
-    model.addAttribute("receiptItems", storeService.getShoppingCart());
+    model.addAttribute("bill", new Bill(storeService.getShoppingCart()));
     return "shoppingCart";
   }
 

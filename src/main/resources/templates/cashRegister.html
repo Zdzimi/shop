@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Cash Register</title>
@@ -11,20 +10,17 @@
 
 <div id="container">
 
-  <ul>
-    <li th:each="item : ${bill.items}">
-      <h5 th:text="'Nazwa: ' + ${item.commodity.name}"></h5>
-      <h5 th:text="'Cena szt: ' + ${item.commodity.price}"></h5>
-      <h5 th:text="'Ilość: ' + ${item.amount}"></h5>
-      <h5 th:text="'Cena: ' + ${item.price}"></h5>
+  <div th:each="item : ${bill.items}">
 
-      <div th:each="p : ${item.commodity.photos}">
-        <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
-      </div>
+    <h5 th:text="${item.commodity.name} + ': ' + ${item.commodity.price} + ' * ' + ${item.amount} + ' = ' + ${item.price}"></h5>
 
-    </li>
-  </ul>
-  <h2 th:text="'Suma: ' + ${bill.sum}"></h2>
+    <div th:each="p : ${item.commodity.photos}">
+      <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
+    </div>
+
+  </div>
+
+  <h5 th:text="'Suma: ' + ${bill.sum}"></h5>
 
   <form method="POST" th:action="@{/shop/cash-register}">
     <fieldset>
@@ -32,9 +28,10 @@
       <div th:each="a : ${addresses}">
         <input type="radio" th:id="${a.id}" th:name="addressId" th:value="${a.id}">
         <label th:for="${a.id}">
-          <h4 th:text="${a.street} + ' ' + ${a.buildingNumber} + ' ' + ${a.apartmentNumber}"></h4>
-          <h4 th:text="${a.zipCode} + ' ' + ${a.city}"></h4>
-          <h4 th:text="${a.province}"></h4>
+
+          <h5 th:text="'ul. ' + ${a.street} + ' ' + ${a.buildingNumber}"><span th:if="${(a.apartmentNumber != null)}" th:text="'/' + ${a.apartmentNumber}"></span></h5>
+          <h5 th:text="${a.zipCode} + ' ' + ${a.city} + ' ' + ${a.province}"></h5>
+
         </label>
       </div>
     </fieldset>

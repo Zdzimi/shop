@@ -102,18 +102,20 @@ public class OrdersService {
       orderDTO.setApartmentNumber(order.getAddress().getApartmentNumber());
       orderDTO.setZipCode(order.getAddress().getZipCode());
 
-      orderDTO.setReceiptItems(mapReceiptItems(order, commoditiesService));
+      Bill bill = getBill(order, commoditiesService);
+
+      orderDTO.setReceiptItems(bill.getItems());
+      orderDTO.setSum(bill.getSum());
 
       return orderDTO;
     }
 
-    private static Collection<ReceiptItem> mapReceiptItems(Order order,
-        CommoditiesService commoditiesService) {
+    private static Bill getBill(Order order, CommoditiesService commoditiesService) {
       List<ReceiptItem> result = new ArrayList<>();
       for (OrdersHasCommodities ohc : order.getCommodities()) {
         result.add(new ReceiptItem(commoditiesService.mapToCommodityDTO(ohc.getCommodity()), ohc.getAmount()));
       }
-      return result;
+      return new Bill(result);
     }
 
   }

@@ -11,28 +11,25 @@
 
 <div id="container">
 
-  <ul>
-    <li th:each="item : ${receiptItems}">
-      <h5 th:text="'Nazwa: ' + ${item.commodity.name}"></h5>
-      <h5 th:text="'Cena szt: ' + ${item.commodity.price}"></h5>
-      <h5 th:text="'Ilość: ' + ${item.amount}"></h5>
-      <h5 th:text="'Cena: ' + ${item.price}"></h5>
+  <div th:each="item : ${bill.items}">
+    <h5 th:text="${item.commodity.name} + ': ' + ${item.commodity.price} + ' * ' + ${item.amount} + ' = ' + ${item.price}"></h5>
 
-      <div th:each="p : ${item.commodity.photos}">
-        <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
-      </div>
+    <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}" method="post">
+      <input type="number" name="amount" placeholder="ilość" step="1" min="1" required>
+      <button type="submit">Aktualizuj ilość</button>
+    </form>
 
-      <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}" method="post">
-        <input type="number" name="amount" placeholder="ilość" step="1" min="1" required>
-        <button type="submit">Aktualizuj ilość</button>
-      </form>
+    <div th:each="p : ${item.commodity.photos}">
+      <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
+    </div>
 
-      <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}">
-        <button type="submit">Usuń z koszyka</button>
-      </form>
+    <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}">
+      <button type="submit">Usuń z koszyka</button>
+    </form>
 
-    </li>
-  </ul>
+  </div>
+
+  <h5 th:text="'Suma: ' + ${bill.sum}"></h5>
 
   <form sec:authorize="isAuthenticated()" th:action="@{/shop/cash-register}">
     <button type="submit">Do kasy</button>

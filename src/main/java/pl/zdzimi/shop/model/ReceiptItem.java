@@ -1,5 +1,6 @@
 package pl.zdzimi.shop.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,12 @@ public class ReceiptItem {
 
   private CommodityDTO commodity;
   private int amount;
-  private double price;
+  private BigDecimal price;
 
   public ReceiptItem(CommodityDTO commodity, int amount) {
     this.commodity = commodity;
     this.amount = amount;
-    this.price = commodity.getPrice() * amount;
+    this.price = BigDecimal.valueOf(commodity.getPrice()).multiply(new BigDecimal(amount));
   }
 
   @Override

@@ -1,5 +1,6 @@
 package pl.zdzimi.shop.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import lombok.Getter;
@@ -24,5 +25,7 @@ public class OrderDTO {
   private String zipCode;
 
   private Collection<ReceiptItem> receiptItems;
+
+  private BigDecimal sum;
 
 }

@@ -1,5 +1,6 @@
 package pl.zdzimi.shop.model;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +10,13 @@ import lombok.Setter;
 public class Bill {
 
   private Collection<ReceiptItem> items;
-  private double sum;
+  private BigDecimal sum;
 
   public Bill(Collection<ReceiptItem> items) {
     this.items = items;
+    this.sum = new BigDecimal(0);
     for (ReceiptItem item : items) {
-      this.sum += item.getPrice();
+      this.sum = this.getSum().add(item.getPrice());
     }
   }
 

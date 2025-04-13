@@ -11,9 +11,9 @@
 <div id="container">
   <div th:each="o : ${orders}">
 
-    <h5 th:text="'Zamówienie nr: ' + ${o.id} + ' ' + ${o.dateTime}"></h5>
+    <h5 th:text="'Zamówienie nr: ' + ${o.id} + ' ' + ${#temporals.format(o.dateTime, 'dd-MM-yyyy HH:mm')}"></h5>
 
-    <h5 th:text="'Pan/i ' + ${o.name} + ' ' + ${o.surname} + ' e-mail: ' + ${o.email}"></h5>
+    <h5 th:text="${o.name} + ' ' + ${o.surname} + ' e-mail: ' + ${o.email}"></h5>
 
     <h5>Adres dostawy:</h5>
 
@@ -26,6 +26,8 @@
       <h5 th:text="${ri.commodity.name} + ': ' + ${ri.commodity.price} + ' * ' + ${ri.amount} + ' = ' + ${ri.price}"></h5>
 
     </div>
+
+    <h5 th:text="'Suma: ' + ${o.sum}"></h5>
 
   </div>
 </div>
