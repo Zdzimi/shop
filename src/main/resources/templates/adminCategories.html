@@ -2,38 +2,71 @@
 <html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+        crossorigin="anonymous">
   <title>Admin Categories</title>
 </head>
 <body>
 
-<header th:replace="~{fragments/header :: header}"></header>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
 
-<div id="container">
-  <h4>Kategorie:</h4>
-  <h5 th:if="${(categories.size == 0)}">Brak kategorii</h5>
-  <ul>
-    <li th:each="c : ${categories}">
-      <h5 th:text="${c.name}"></h5>
-      <form th:action="@{'/shop/admin/categories/' + ${c.id}}">
-        <button type="submit">Usuń</button>
-      </form>
-    </li>
-  </ul>
+<div class="d-flex flex-column justify-content-between min-vh-100 min-vw-100">
 
-  <!--/*@thymesVar id="categoryDTO" type="pl.zdzimi.shop.model.CategoryDTO"*/-->
-  <form th:action="@{/shop/admin/categories}" method="post" th:object="${categoryDTO}">
+  <header th:replace="~{fragments/header :: header}"></header>
 
-    <h2>Dodaj kategorię:</h2>
+  <div class="container-fluid text-center">
 
-    <input type="text" th:field="*{name}" name="name" placeholder="Nazwa" required>
-    <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error"></h6>
+    <div class="row">
 
-    <button type="submit">Dodaj</button>
+      <div class="col-md-6 col-xs-12">
 
-  </form>
+        <div class="text-center">
+          <!--/*@thymesVar id="categoryDTO" type="pl.zdzimi.shop.model.CategoryDTO"*/-->
+          <form th:action="@{/shop/admin/categories}" method="post" th:object="${categoryDTO}"
+                class="d-grid gap-2 col-6 mx-auto text-center align-self-center">
+
+            <h2>Dodaj kategorię:</h2>
+
+            <input type="text" th:field="*{name}" class="form-control text-center" name="name"
+                   placeholder="Nazwa" required>
+            <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="form-text"></h6>
+
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+
+          </form>
+        </div>
+
+      </div>
+
+      <div class="col-md-6 col-xs-12">
+
+        <div class="text-center">
+          <h4>Kategorie:</h4>
+          <h5 th:if="${(categoriesAll.size == 0)}">Brak kategorii</h5>
+            <div th:each="c : ${categoriesAll}" class="d-flex my-2 text-end">
+
+              <h5 th:text="${c.name}"></h5>
+              <a th:href="@{'/shop/admin/categories/' + ${c.id}}"
+                 class="btn btn-primary col-6 m-auto">Usuń</a>
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </div>
-
-<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

@@ -16,10 +16,10 @@ public class CreatingCommodity {
   @Size(min = 4, max = 20, message = "Min 4 znaki max 20 znaków")
   private String name;
   @NotBlank(message = "Podaj opis")
-  @Size(min = 4, max = 20, message = "Min 4 znaki max 200 znaków")
+  @Size(min = 4, max = 200, message = "Min 4 znaki max 200 znaków")
   private String description;
   @Min(0)
-  private double price;
+  private Double price;
   private Long categoryId;
 
   private MultipartFile photoFirst;
@@ -28,16 +28,16 @@ public class CreatingCommodity {
   private String photoFirstName;
   private String photoFirstDescription;
   private String photoFirstHint;
-  private double photoFirstWidth;
-  private double photoFirstHeight;
+  private Double photoFirstWidth;
+  private Double photoFirstHeight;
 
   private MultipartFile photoSecond;
   private String photoSecondName;
   private String photoSecondDescription;
   private String photoSecondHint;
-  private double photoSecondWidth;
-  private double photoSecondHeight;
+  private Double photoSecondWidth;
+  private Double photoSecondHeight;
 
-  private int amount;
+  private Integer amount;
 
 }

@@ -2,97 +2,195 @@
 <html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+        crossorigin="anonymous">
   <title>Commodities</title>
 </head>
 <body>
 
-<header th:replace="~{fragments/header :: header}"></header>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
 
-<div id="container">
+<div class="d-flex flex-column justify-content-between min-vh-100 min-vw-100">
 
-  <h4>Towary:</h4>
-  <h5 th:if="${(commodities.size == 0)}">Brak towarów</h5>
-  <ul>
-    <li th:each="c : ${commodities}">
-      <h5 th:text="${c.name}"></h5>
-      <h5 th:text="'Ilość: ' + ${c.amount}"></h5>
-      <h5 th:text="'Cena: ' + ${c.price}"></h5>
-      <div th:each="p : ${c.photos}">
-        <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
+  <header th:replace="~{fragments/header :: header}"></header>
+
+  <div class="container-fluid text-center">
+
+    <div class="row">
+
+      <div class="card col-lg-8 col-md-10 col-sm-12 my-3 mx-auto">
+
+        <!--/*@thymesVar id="creatingCommodity" type="pl.zdzimi.shop.model.CreatingCommodity"*/-->
+        <form th:action="@{/shop/admin/commodities}" method="post" th:object="${creatingCommodity}"
+              enctype="multipart/form-data"
+              class="d-grid gap-2 col-6 mx-auto text-center align-self-center">
+
+          <h2>Dodaj produkt:</h2>
+
+          <input type="text" th:field="*{name}" name="name" placeholder="Nazwa produktu" class="form-control text-center" required>
+          <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="form-text"></h6>
+
+          <input type="text" th:field="*{description}" name="description" placeholder="Opis produktu" class="form-control text-center"
+                 required>
+          <h6 th:each="err : ${#fields.errors('description')}" th:text="${err}" class="form-text"></h6>
+
+          <input type="number" th:field="*{price}" name="price" placeholder="Cena" step="0.1" class="form-control text-center"
+                 required>
+          <h6 th:each="err : ${#fields.errors('price')}" th:text="${err}" class="form-text"></h6>
+
+          <select name="categoryId" class="form-select">
+            <option th:each="c : ${categoriesAll}" th:value="${c.id}" th:text="${c.name}"></option>
+          </select>
+
+          <input type="file" th:field="*{photoFirst}" name="photoFirst" class="form-control text-center" accept="image/*">
+          <!--    <h6 th:each="err : ${#fields.errors('photoFirst')}" th:text="${err}" class="error"></h6>-->
+
+          <input type="text" th:field="*{photoFirstName}" name="photoFirstName" placeholder="Nazwa" class="form-control text-center"
+                 required>
+          <h6 th:each="err : ${#fields.errors('photoFirstName')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="text" th:field="*{photoFirstDescription}" name="photoFirstDescription" class="form-control text-center"
+                 placeholder="Opis">
+          <h6 th:each="err : ${#fields.errors('photoFirstDescription')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="text" th:field="*{photoFirstHint}" name="photoFirstHint" class="form-control text-center"
+                 placeholder="Podpowiedź">
+          <h6 th:each="err : ${#fields.errors('photoFirstHint')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="number" th:field="*{photoFirstWidth}" name="photoFirstWidth" class="form-control text-center"
+                 placeholder="Szerokość" step="1">
+          <h6 th:each="err : ${#fields.errors('photoFirstWidth')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="number" th:field="*{photoFirstHeight}" name="photoFirstHeight" class="form-control text-center"
+                 placeholder="Wysokość" step="1">
+          <h6 th:each="err : ${#fields.errors('photoFirstHeight')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="file" th:field="*{photoSecond}" name="photoSecond" class="form-control text-center" accept="image/*">
+          <!--    <h6 th:each="err : ${#fields.errors('photoSecond')}" th:text="${err}" class="error"></h6>-->
+
+          <input type="text" th:field="*{photoSecondName}" name="photoSecondName" class="form-control text-center"
+                 placeholder="Nazwa">
+          <h6 th:each="err : ${#fields.errors('photoSecondName')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="text" th:field="*{photoSecondDescription}" name="photoSecondDescription" class="form-control text-center"
+                 placeholder="Opis">
+          <h6 th:each="err : ${#fields.errors('photoSecondDescription')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="text" th:field="*{photoSecondHint}" name="photoSecondHint" class="form-control text-center"
+                 placeholder="Podpowiedź">
+          <h6 th:each="err : ${#fields.errors('photoSecondHint')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="number" th:field="*{photoSecondWidth}" name="photoSecondWidth" class="form-control text-center"
+                 placeholder="Szerokość" step="1">
+          <h6 th:each="err : ${#fields.errors('photoSecondWidth')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="number" th:field="*{photoSecondHeight}" name="photoSecondHeight" class="form-control text-center"
+                 placeholder="Wysokość" step="1">
+          <h6 th:each="err : ${#fields.errors('photoSecondHeight')}" th:text="${err}"
+              class="form-text"></h6>
+
+          <input type="number" th:field="*{amount}" name="amount" placeholder="Ilość" step="1" class="form-control text-center"
+                 required>
+          <h6 th:each="err : ${#fields.errors('amount')}" th:text="${err}" class="form-text"></h6>
+
+          <button type="submit" class="btn btn-primary">Dodaj produkt</button>
+
+        </form>
+
       </div>
-      <form th:action="@{'/shop/admin/commodities/' + ${c.id}}">
-        <button type="submit">Usuń</button>
-      </form>
-      <form th:action="@{'/shop/admin/commodities/' + ${c.id}}" method="post">
-        <input type="number" name="amount" placeholder="ilość" step="1" required>
-        <button type="submit">Dodaj</button>
-      </form>
-    </li>
-  </ul>
 
-  <!--/*@thymesVar id="creatingCommodity" type="pl.zdzimi.shop.model.CreatingCommodity"*/-->
-  <form th:action="@{/shop/admin/commodities}" method="post" th:object="${creatingCommodity}" enctype="multipart/form-data">
+      <div class="card col-lg-8 col-md-10 col-sm-12 my-3 mx-auto">
 
-    <h2>Dodaj produkt:</h2>
+        <h2 th:if="${(commodities.size != 0)}">Towary:</h2>
+        <h2 th:if="${(commodities.size == 0)}">Brak towarów.</h2>
 
-    <input type="text" th:field="*{name}" name="name" placeholder="Nazwa" required>
-    <h6 th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error"></h6>
+      </div>
 
-    <input type="text" th:field="*{description}" name="description" placeholder="Opis" required>
-    <h6 th:each="err : ${#fields.errors('description')}" th:text="${err}" class="error"></h6>
+      <div th:each="c : ${commodities}" class="card text-bg-dark col-lg-8 col-md-10 col-sm-12 my-3 mx-auto">
 
-    <input type="number" th:field="*{price}" name="price" placeholder="Cena" step="0.1" required>
-    <h6 th:each="err : ${#fields.errors('price')}" th:text="${err}" class="error"></h6>
+        <div class="card-header">
 
-    <select name="categoryId">
-      <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
-    </select>
+          <h3 class="card-title" th:text="${c.name}"></h3>
+          <h5 class="card-subtitle mb-2 text-body-light" th:text="'Cena: ' + ${c.price}"></h5>
+          <h5 class="card-subtitle mb-2 text-body-light" th:text="'Ilość: ' + ${c.amount}"></h5>
 
-    <input type="file" th:field="*{photoFirst}" name="photoFirst" accept="image/*">
-<!--    <h6 th:each="err : ${#fields.errors('photoFirst')}" th:text="${err}" class="error"></h6>-->
+        </div>
 
-    <input type="text" th:field="*{photoFirstName}" name="photoFirstName" placeholder="Nazwa" required>
-    <h6 th:each="err : ${#fields.errors('photoFirstName')}" th:text="${err}" class="error"></h6>
+        <div class="card-body">
 
-    <input type="text" th:field="*{photoFirstDescription}" name="photoFirstDescription" placeholder="Opis">
-    <h6 th:each="err : ${#fields.errors('photoFirstDescription')}" th:text="${err}" class="error"></h6>
+          <div th:id="${c.id}" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img th:src="${c.photos[0].url}" th:width="${c.photos[0].width}"
+                     th:height="${c.photos[0].height}"/>
 
-    <input type="text" th:field="*{photoFirstHint}" name="photoFirstHint" placeholder="Podpowiedź">
-    <h6 th:each="err : ${#fields.errors('photoFirstHint')}" th:text="${err}" class="error"></h6>
+                <div>
+                  <h5 th:text="${c.photos[0].name}"></h5>
+                  <p th:text="${c.photos[0].description}"></p>
+                  <p th:text="${c.photos[0].hint}"></p>
+                </div>
 
-    <input type="number" th:field="*{photoFirstWidth}" name="photoFirstWidth" placeholder="Szerokość" step="1">
-    <h6 th:each="err : ${#fields.errors('photoFirstWidth')}" th:text="${err}" class="error"></h6>
+              </div>
 
-    <input type="number" th:field="*{photoFirstHeight}" name="photoFirstHeight" placeholder="Wysokość" step="1">
-    <h6 th:each="err : ${#fields.errors('photoFirstHeight')}" th:text="${err}" class="error"></h6>
+              <div th:if="${(c.photos.size > 1)}" class="carousel-item">
+                <img th:src="${c.photos[1].url}" th:width="${c.photos[1].width}"
+                     th:height="${c.photos[1].height}"/>
 
-    <input type="file" th:field="*{photoSecond}" name="photoSecond" accept="image/*">
-<!--    <h6 th:each="err : ${#fields.errors('photoSecond')}" th:text="${err}" class="error"></h6>-->
+                <div>
+                  <h5 th:text="${c.photos[1].name}"></h5>
+                  <p th:text="${c.photos[1].description}"></p>
+                  <p th:text="${c.photos[1].hint}"></p>
+                </div>
 
-    <input type="text" th:field="*{photoSecondName}" name="photoSecondName" placeholder="Nazwa">
-    <h6 th:each="err : ${#fields.errors('photoSecondName')}" th:text="${err}" class="error"></h6>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" th:data-bs-target="${'#' + c.id}"
+                    data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" th:data-bs-target="${'#' + c.id}"
+                    data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
 
-    <input type="text" th:field="*{photoSecondDescription}" name="photoSecondDescription" placeholder="Opis">
-    <h6 th:each="err : ${#fields.errors('photoSecondDescription')}" th:text="${err}" class="error"></h6>
+          <p class="card-text" th:text="${c.description}"></p>
 
-    <input type="text" th:field="*{photoSecondHint}" name="photoSecondHint" placeholder="Podpowiedź">
-    <h6 th:each="err : ${#fields.errors('photoSecondHint')}" th:text="${err}" class="error"></h6>
+          <form th:action="@{'/shop/admin/commodities/' + ${c.id}}" class="d-flex my-2" method="post">
+            <input type="number" name="amount" class="form-control w-25 m-auto" placeholder="ilość"
+                   step="1" required>
+            <button type="submit" class="btn btn-primary w-25 m-auto">Dodaj</button>
+          </form>
 
-    <input type="number" th:field="*{photoSecondWidth}" name="photoSecondWidth" placeholder="Szerokość" step="1">
-    <h6 th:each="err : ${#fields.errors('photoSecondWidth')}" th:text="${err}" class="error"></h6>
+          <a th:href="@{'/shop/admin/commodities/' + ${c.id}}" class="btn btn-primary col-6 my-2 mx-auto">Usuń</a>
 
-    <input type="number" th:field="*{photoSecondHeight}" name="photoSecondHeight" placeholder="Wysokość" step="1">
-    <h6 th:each="err : ${#fields.errors('photoSecondHeight')}" th:text="${err}" class="error"></h6>
+        </div>
 
-    <input type="number" th:field="*{amount}" name="amount" placeholder="Ilość" step="1" required>
-    <h6 th:each="err : ${#fields.errors('amount')}" th:text="${err}" class="error"></h6>
+      </div>
 
-    <button type="submit">Dodaj produkt</button>
-  </form>
+    </div>
+
+  </div>
+
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </div>
-
-<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

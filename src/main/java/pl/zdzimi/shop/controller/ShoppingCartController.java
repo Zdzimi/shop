@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.zdzimi.shop.model.Bill;
+import pl.zdzimi.shop.model.SearchingParams;
+import pl.zdzimi.shop.service.CategoriesService;
 import pl.zdzimi.shop.service.StoreService;
 
 @Controller
@@ -14,9 +16,12 @@ import pl.zdzimi.shop.service.StoreService;
 public class ShoppingCartController {
 
   private final StoreService storeService;
+  private final CategoriesService categoriesService;
 
   @GetMapping
   public String getShoppingCart(Model model) {
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     model.addAttribute("bill", new Bill(storeService.getShoppingCart()));
     return "shoppingCart";
   }

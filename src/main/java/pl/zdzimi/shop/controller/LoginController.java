@@ -31,7 +31,11 @@ public class LoginController {
   }
 
   @PostMapping("/registration")
-  public String register(@Valid @ModelAttribute SingingUser singingUser, BindingResult result) {
+  public String register(@Valid @ModelAttribute SingingUser singingUser, BindingResult result,
+      @AuthenticationPrincipal PrincipalUser user) {
+    if (isLoggedIn(user)) {
+      return "redirect:/shop/account";
+    }
     if (result.hasErrors()) {
       return "registration";
     }
@@ -56,7 +60,8 @@ public class LoginController {
   }
 
   @PostMapping("/password-reset")
-  public String passwordReset(@AuthenticationPrincipal PrincipalUser user, @RequestParam String username, Model model) {
+  public String passwordReset(@AuthenticationPrincipal PrincipalUser user,
+      @RequestParam String username, Model model) {
     if (isLoggedIn(user)) {
       return "redirect:/shop/account";
     }
@@ -65,7 +70,11 @@ public class LoginController {
   }
 
   @GetMapping("/password-reset/{code}")
-  public String changePasswordView(@PathVariable String code, Model model) {
+  public String changePasswordView(@PathVariable String code,
+      @AuthenticationPrincipal PrincipalUser user, Model model) {
+    if (isLoggedIn(user)) {
+      return "redirect:/shop/account";
+    }
     if (passwordRecoveryService.isNotExpired(code)) {
       model.addAttribute("code", code);
       model.addAttribute("pass", new Pass());
@@ -76,8 +85,13 @@ public class LoginController {
   }
 
   @PostMapping("/password-reset/{code}")
-  public String changePassword(@Valid @ModelAttribute Pass pass, BindingResult result, @PathVariable String code) {
+  public String changePassword(@Valid @ModelAttribute Pass pass, BindingResult result,
+      @AuthenticationPrincipal PrincipalUser user, @PathVariable String code, Model model) {
+    if (isLoggedIn(user)) {
+      return "redirect:/shop/account";
+    }
     if (result.hasErrors()) {
+      model.addAttribute("code", code);
       return "changePassword";
     }
     if (passwordRecoveryService.isNotExpired(code)) {

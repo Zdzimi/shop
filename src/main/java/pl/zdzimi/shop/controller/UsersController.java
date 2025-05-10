@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.zdzimi.shop.model.AddressDTO;
+import pl.zdzimi.shop.model.SearchingParams;
 import pl.zdzimi.shop.securiry.PrincipalUser;
 import pl.zdzimi.shop.service.AddressesService;
+import pl.zdzimi.shop.service.CategoriesService;
 import pl.zdzimi.shop.service.OrdersService;
 
 @Controller
@@ -19,12 +21,15 @@ public class UsersController {
 
   private final AddressesService addressesService;
   private final OrdersService ordersService;
+  private final CategoriesService categoriesService;
 
   @GetMapping
   public String getAccountPage(@AuthenticationPrincipal PrincipalUser principalUser, Model model) {
     model.addAttribute("user", principalUser.getUser());
     model.addAttribute("addresses", addressesService.findAddress(principalUser.getUser()));
     model.addAttribute("addressDTO", new AddressDTO());
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     return "account";
   }
 
@@ -48,6 +53,8 @@ public class UsersController {
   @GetMapping("/history")
   public String getMyOrdersView(Model model, @AuthenticationPrincipal PrincipalUser principalUser) {
     model.addAttribute("orders", ordersService.getAllMyOrders(principalUser.getUser()));
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     return "orders";
   }
 

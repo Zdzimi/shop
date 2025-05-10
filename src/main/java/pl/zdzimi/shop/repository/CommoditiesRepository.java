@@ -48,4 +48,7 @@ public interface CommoditiesRepository extends JpaRepository<Commodity, Long> {
   """)
   Collection<Commodity> findAllAvailableByNameLike(String name);
 
+  @Query("SELECT c FROM Commodity c LEFT JOIN FETCH c.category cat where cat.id = ?1")
+  Collection<Commodity> findByCategoryId(Long id);
+
 }

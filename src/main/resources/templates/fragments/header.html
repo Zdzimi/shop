@@ -9,45 +9,84 @@
 
 <header>
 
-  <form method="GET" th:action="@{/shop}">
-    <button type="submit">Home</button>
-  </form>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
 
-  <form sec:authorize="isAuthenticated()" th:action="@{/shop/account}">
-    <button type="submit">Konto</button>
-  </form>
+    <div class="container-fluid">
+      <a class="navbar-brand col" th:href="@{/shop}">Shop</a>
+      <button class="navbar-toggler col" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-  <form sec:authorize="isAuthenticated()" th:action="@{/shop/account/history}">
-    <button type="submit">Twoje Zamówienia</button>
-  </form>
+        <form th:action="@{/shop}" method="POST" th:object="${searchingParams}" class="d-flex col"
+              role="search">
 
-  <form method="GET" th:action="@{/shop/shopping-cart}">
-    <button type="submit">Koszyk</button>
-  </form>
+          <input type="search" th:field="*{name}" name="name" placeholder="Nazwa"
+                 class="form-control me-2" aria-label="Search">
 
-  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/categories}">
-    <button type="submit">Kategorie</button>
-  </form>
+          <select class="form-select" name="categoryId">
+            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+          </select>
 
-  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/commodities}">
-    <button type="submit">Towary</button>
-  </form>
 
-  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/employees}">
-    <button type="submit">Pracownicy</button>
-  </form>
+          <button class="btn btn-outline-primary" type="submit">Szukaj</button>
 
-  <form sec:authorize="hasRole('ADMIN')" th:action="@{/shop/admin/orders}">
-    <button type="submit">Zamówienia</button>
-  </form>
+        </form>
 
-  <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/shop/logout}">
-    <button type="submit">Wyloguj</button>
-  </form>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-  <form sec:authorize="!isAuthenticated()" method="GET" th:action="@{/shop/login}">
-    <button type="submit">Logowanie</button>
-  </form>
+          <li class="nav-item col">
+            <a class="nav-link active" aria-current="page" th:href="@{/shop/shopping-cart}">Koszyk</a>
+          </li>
+
+          <li class="nav-item dropdown col" sec:authorize="isAuthenticated()">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Konto użytkownika
+            </a>
+
+            <ul class="dropdown-menu" >
+              <li><a class="dropdown-item" th:href="@{/shop/account}">Twoje konto</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" th:href="@{/shop/account/history}">Zamówienia</a></li>
+            </ul>
+
+          </li>
+
+          <li class="nav-item dropdown col" sec:authorize="hasRole('ADMIN')">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Konto admina
+            </a>
+
+            <ul class="dropdown-menu"  sec:authorize="isAuthenticated()">
+              <li><a class="dropdown-item" th:href="@{/shop/admin/categories}">Kategorie</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" th:href="@{/shop/admin/commodities}">Towary</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" th:href="@{/shop/admin/employees}">Pracownicy</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" th:href="@{/shop/admin/orders}">Zamówienia</a></li>
+            </ul>
+
+          </li>
+
+          <li sec:authorize="isAuthenticated()" class="nav-item col">
+            <form method="POST" th:action="@{/shop/logout}">
+              <button type="submit" class="nav-link active" aria-current="page">Wyloguj</button>
+            </form>
+          </li>
+
+          <li sec:authorize="!isAuthenticated()" class="nav-item col">
+            <a class="nav-link active" aria-current="page" th:href="@{/shop/login}">Logowanie</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
 
 </header>
 

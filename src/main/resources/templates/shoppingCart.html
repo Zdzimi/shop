@@ -3,45 +3,71 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+        crossorigin="anonymous">
   <title>Shopping Cart</title>
 </head>
 <body>
 
-<header th:replace="~{fragments/header :: header}"></header>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
 
-<div id="container">
+<div class="d-flex flex-column justify-content-between min-vh-100 min-vw-100">
 
-  <div th:each="item : ${bill.items}">
-    <h5 th:text="${item.commodity.name} + ': ' + ${item.commodity.price} + ' * ' + ${item.amount} + ' = ' + ${item.price}"></h5>
+  <header th:replace="~{fragments/header :: header}"></header>
 
-    <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}" method="post">
-      <input type="number" name="amount" placeholder="ilość" step="1" min="1" required>
-      <button type="submit">Aktualizuj ilość</button>
-    </form>
+  <div class="container-fluid text-center">
 
-    <div th:each="p : ${item.commodity.photos}">
-      <img th:src="${p.url}" th:width="${p.width}" th:height="${p.height}"/>
+    <div class="card text-bg-dark col-lg-8 col-md-10 col-sm-12 my-3 mx-auto">
+
+      <div class="card-header">
+
+        <h3 class="card-title">Twój koszyk</h3>
+
+      </div>
+
+      <div class="card-body">
+
+        <h4>Produkty:</h4>
+        <ul class="list-group list-group-flush text-end">
+          <li class="list-group-item" th:each="item : ${bill.items}">
+            <h5 th:text="${item.commodity.name} + ': ' + ${item.commodity.price} + ' * ' + ${item.amount} + ' = ' + ${item.price}"></h5>
+
+            <div class="d-flex">
+              <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}" class="d-flex col-md-8 col-sm-12" method="post">
+                <input type="number" class="form-control w-25 m-auto" name="amount" placeholder="ilość" step="1" min="1" required>
+                <button type="submit" class="btn btn-primary w-25 m-auto">Aktualizuj</button>
+              </form>
+              <a th:href="@{'/shop/shopping-cart/' + ${item.commodity.id}}" class="btn btn-primary col-md-4 col-sm-12">Usuń</a>
+            </div>
+
+          </li>
+          <li class="list-group-item">
+            <h4 th:text="'Suma: ' + ${bill.sum}"></h4>
+          </li>
+        </ul>
+
+        <a sec:authorize="isAuthenticated()"
+           th:href="@{/shop/cash-register}"
+           class="btn btn-primary col-6 mx-auto my-5">Do kasy</a>
+
+        <a sec:authorize="!isAuthenticated()"
+           th:href="@{/shop/login}"
+           class="btn btn-primary col-6 mx-auto my-5">Logowanie</a>
+
+      </div>
+
     </div>
-
-    <form th:action="@{'/shop/shopping-cart/' + ${item.commodity.id}}">
-      <button type="submit">Usuń z koszyka</button>
-    </form>
 
   </div>
 
-  <h5 th:text="'Suma: ' + ${bill.sum}"></h5>
-
-  <form sec:authorize="isAuthenticated()" th:action="@{/shop/cash-register}">
-    <button type="submit">Do kasy</button>
-  </form>
-
-  <form sec:authorize="!isAuthenticated()" method="GET" th:action="@{/shop/login}">
-    <button type="submit">Logowanie</button>
-  </form>
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </div>
-
-<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.zdzimi.shop.model.CategoryDTO;
 import pl.zdzimi.shop.model.CreatingCommodity;
 import pl.zdzimi.shop.model.EmployeeDTO;
+import pl.zdzimi.shop.model.SearchingParams;
 import pl.zdzimi.shop.service.AmountsService;
 import pl.zdzimi.shop.service.CategoriesService;
 import pl.zdzimi.shop.service.CommoditiesService;
@@ -30,14 +31,18 @@ public class AdminController {
   @GetMapping("/categories")
   public String getAdminCategoriesView(Model model) {
     model.addAttribute("categoryDTO", new CategoryDTO());
-    model.addAttribute("categories", categoriesService.getAll());
+    model.addAttribute("categoriesAll", categoriesService.getAll());
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     return "adminCategories";
   }
 
   @PostMapping("/categories")
   public String createCategory(@Valid @ModelAttribute CategoryDTO categoryDTO, BindingResult result, Model model) {
     if (result.hasErrors()) {
-      model.addAttribute("categories", categoriesService.getAll());
+      model.addAttribute("categoriesAll", categoriesService.getAll());
+      model.addAttribute("categories", categoriesService.getCategories());
+      model.addAttribute("searchingParams", new SearchingParams());
       return "adminCategories";
     }
     categoriesService.create(categoryDTO);
@@ -54,6 +59,8 @@ public class AdminController {
   public String getEmployeesView(Model model) {
     model.addAttribute("employeeDTO", new EmployeeDTO());
     model.addAttribute("employees", employeesService.findAll());
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     return "employees";
   }
 
@@ -61,6 +68,8 @@ public class AdminController {
   public String createEmployee(@Valid @ModelAttribute EmployeeDTO employeeDTO, BindingResult result, Model model) {
     if (result.hasErrors()) {
       model.addAttribute("employees", employeesService.findAll());
+      model.addAttribute("categories", categoriesService.getCategories());
+      model.addAttribute("searchingParams", new SearchingParams());
       return "employees";
     }
     employeesService.create(employeeDTO);
@@ -77,7 +86,9 @@ public class AdminController {
   public String getCommoditiesView(Model model) {
     model.addAttribute("commodities", commoditiesService.findAll());
     model.addAttribute("creatingCommodity", new CreatingCommodity());
-    model.addAttribute("categories", categoriesService.getAll());
+    model.addAttribute("categoriesAll", categoriesService.getAll());
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     return "commodities";
   }
 
@@ -85,7 +96,9 @@ public class AdminController {
   public String addCommodity(@Valid @ModelAttribute CreatingCommodity creatingCommodity, BindingResult result, Model model) {
     if (result.hasErrors()) {
       model.addAttribute("commodities", commoditiesService.findAll());
-      model.addAttribute("categories", categoriesService.getAll());
+      model.addAttribute("categoriesAll", categoriesService.getAll());
+      model.addAttribute("categories", categoriesService.getCategories());
+      model.addAttribute("searchingParams", new SearchingParams());
       return "commodities";
     }
     commoditiesService.saveCommodity(creatingCommodity);
@@ -107,6 +120,8 @@ public class AdminController {
   @GetMapping("/orders")
   public String getOrdersView(Model model) {
     model.addAttribute("orders", ordersService.getAllOrders());
+    model.addAttribute("categories", categoriesService.getCategories());
+    model.addAttribute("searchingParams", new SearchingParams());
     return "orders";
   }
 
