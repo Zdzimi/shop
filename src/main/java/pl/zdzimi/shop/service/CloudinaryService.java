@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.ssl.SslProperties.Bundles.Watch;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,14 @@ public class CloudinaryService {
   private final Cloudinary cloudinary;
 
   public String uploadFile(MultipartFile multipartFile) {
+
+    if (!Files.exists(Path.of("upload-dir"))) {
+      try {
+        Files.createDirectory(Path.of("upload-dir"));
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
+    }
 
     Path destinationFile = Paths.get("upload-dir").resolve(
         Paths.get(multipartFile.getOriginalFilename()))
